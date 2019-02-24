@@ -124,7 +124,7 @@ export default {
       for (let i = this.denoms.length-1; i >= 0; i--) {
         if(this.denoms[i].value > wager || i === 1){
           continue;
-        } else if (i>2 && Math.floor(Math.random()*10)<3){
+        } else if (i>2 && Math.floor(Math.random()*5)<1){
           //Random Checkchange 
           continue;
         }
