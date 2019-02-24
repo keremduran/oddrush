@@ -249,7 +249,7 @@ export default {
       } else if (number < tableMin) {   
         number += tableMin;
       }
-      
+      number += 100;
       number += half;
       number = number - number%increment;
       this.wager = number;
