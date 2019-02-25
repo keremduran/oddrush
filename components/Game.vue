@@ -233,11 +233,11 @@ export default {
       if(this.odd.increment){
         increment = this.odd.increment;
       }
-      let upper = this.score*50;
+      let upper = (this.score+1)*50;
       let number = tableMin + Math.floor(Math.random()*upper);
       let half;
 
-      if(Math.floor(Math.random()*6) > 1){
+      if(Math.round(Math.random()*4) < 1){
         half = 0;
       } else {
         half = .5;
@@ -249,7 +249,6 @@ export default {
       } else if (number < tableMin) {   
         number += tableMin;
       }
-      number += 100;
       number += half;
       number = number - number%increment;
       this.wager = number;
