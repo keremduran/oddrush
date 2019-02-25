@@ -6,10 +6,10 @@
       :key="row+'.stk-'+denom.color"
       align-h="end">
       <span class="slush">{{ row===1 && denom.amount%denom.max!==0 ? denom.amount%denom.max+'x' : '' }}</span>
-      <chip 
-        v-for="dropCut in totalDropCut(row, denom.max, denom.amount)" 
+      <chip
+        v-for="dropCut in howManyDropCuts(row, denom.max, denom.amount)" 
         :key="denom.max+'dropCut'+dropCut"
-        @click.native="take(row, dropCut, totalDropCut(row, denom.max, denom.amount), denom)"
+        @click.native="take(row, dropCut, denom)"
         :denom="denom"/>
       </b-row>
     </b-col>
@@ -22,14 +22,14 @@ export default {
   props: ["denom", "pinch"],
 
   methods: {
-    take(row, dropCut, total, denom){
+    take(row, dropCut, denom){
       if(this.pinch === false){
         return;
       }
       let answer = this.answer;
       let take = denom.max;
-      if(row === 1 && dropCut === total && denom.amount%denom.max!==0){
-        take = denom.amount%denom.max;        
+      if(row === 1 && dropCut === 1){
+        take = 1;        
       }
 
       if(this.denoms[denom.index].amount < take){
@@ -40,7 +40,7 @@ export default {
       answer -= take*denom.value;
       this.$store.commit("game/setAnswer", answer);
     },
-    totalDropCut(row, max, amount){
+    howManyDropCuts(row, max, amount){
       let remainingChips = 20;
       if(row===1 && amount%20!==0){
         remainingChips = amount%20;
