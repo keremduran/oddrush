@@ -77,6 +77,18 @@ export const state = () => ({
   ],
   odds: [
     {
+      value: 1.5,
+      text: '3/2',
+      active: true,
+      tableMin: 25
+    },
+    {
+      value: 3,
+      text: '3/1',
+      active: false,
+      tableMin: 25
+    },
+    {
       value: 8,
       text: '8/1',
       active: false,
@@ -89,10 +101,23 @@ export const state = () => ({
       increment: 5
     },
     {
-      value: 1.5,
-      text: '3/2',
-      active: true,
-      tableMin: 25
+      value: 12,
+      text: '12/1',
+      tableMin: 5,
+      active: false,
+      increment: 5
+    },
+    {
+      value: 15,
+      text: '15/1',
+      tableMin: 5,
+      active: false,
+      increment: 5
+    },
+    {
+      value: 17,
+      text: '17/1',
+      active: false,
     },
     {
       value: 0.05,
@@ -107,11 +132,6 @@ export const state = () => ({
       active: false,
       tableMin: 35,
       increment: 5
-    },
-    {
-      value: 17,
-      text: '17/1',
-      active: false,
     },
   ],
   increments: [
