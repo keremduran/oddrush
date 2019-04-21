@@ -6,12 +6,12 @@
         oddrush
       </h1>
       <h2 class="subtitle">
-        A bedazzling odd calculation game for the casino folk
+        A bedazzling payout game for the casino folk
       </h2>
       <div class="links">
         <a
           @click="toggleCurtain()"
-          class="button--grey"
+          class="button button--grey"
         >Play</a>
       </div>
     </div>
@@ -56,6 +56,9 @@ export default {
 </script>
 
 <style scoped>
+.button:hover{
+  cursor: pointer;
+}
 .game-col {
 /* background-color: #3aaf5548; */
   min-height: 100vh;

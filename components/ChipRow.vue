@@ -1,16 +1,28 @@
 <template>
   <b-row>
     <b-col>
-      <b-row class="mt-1" 
-      v-for="row in Math.ceil(denom.amount/20)" 
-      :key="row+'.stk-'+denom.color"
-      align-h="end">
-      <span class="slush">{{ row===1 && denom.amount%denom.max!==0 ? denom.amount%denom.max+'x' : '' }}</span>
-      <chip
-        v-for="dropCut in howManyDropCuts(row, denom.max, denom.amount)" 
-        :key="denom.max+'dropCut'+dropCut"
-        @click.native="take(row, dropCut, denom)"
-        :denom="denom"/>
+      <b-row class="mt-1 first-row"
+      align-h="end"
+      align-v="end">
+        <dropCut
+        v-for="index in howManyDropCuts" 
+        :key="index+'ofMax'+denom.max"
+        :color="denom.color"
+        :class="pinch ? 'pinch':''"
+        @click.native="take(index)"
+        :dropCut="dropCut(index)"/>
+      </b-row>  
+      <b-row class="mt-1"
+      align-h="end"
+      align-v="end"
+      v-for="stack in Math.ceil(this.denom.amount/20)-1"
+      :key="123+stack">
+        <dropCut
+        v-for="index in 20/denom.max" 
+        :key="index+'ofMax'+denom.max"
+        :color="denom.color"
+        @click.native="take(5)"
+        :dropCut="denom.max"/>
       </b-row>
     </b-col>
   </b-row>
@@ -18,35 +30,44 @@
 
 <script>
 import Chip from '~/components/Chip.vue'
+import DropCut from '~/components/DropCut.vue'
 export default {
   props: ["denom", "pinch"],
-
+  data(){
+    return {
+      amount: null,
+    }
+  },
   methods: {
-    take(row, dropCut, denom){
-      if(this.pinch === false){
+    take(dropCut){
+      if(!this.pinch){
         return;
       }
       let answer = this.answer;
-      let take = denom.max;
-      if(row === 1 && dropCut === 1){
+      let take = this.denom.max;
+      if(dropCut === 1){
         take = 1;        
       }
 
-      if(this.denoms[denom.index].amount < take){
+      if(this.denoms[this.denom.index].amount < take){
         return
       }
 
-      this.denoms[denom.index].amount -= take;
-      answer -= take*denom.value;
+      this.denoms[this.denom.index].amount -= take;
+      answer -= take*this.denom.value;
       this.$store.commit("game/setAnswer", answer);
     },
-    howManyDropCuts(row, max, amount){
-      let remainingChips = 20;
-      if(row===1 && amount%20!==0){
-        remainingChips = amount%20;
+    dropCut(index){
+      let dropCut;
+      if(this.denom.amount <= 0){
+        return;
+      } else if((this.denom.amount%this.denom.max)!==0 && index===1){
+        dropCut = this.denom.amount%this.denom.max;
+      } else {
+        dropCut = this.denom.max;
       }
-      return Math.ceil(remainingChips/max)
-    },
+      return dropCut;
+    }
   },
   computed: {
     denoms() {
@@ -54,18 +75,28 @@ export default {
     },
     answer() {
       return this.$store.state.game.answer;
-    }
+    },
+    howManyDropCuts(){
+      let amount;
+      if(this.denom.amount%20===0 && this.denom.amount !==0){
+        amount = 20;
+      } else {
+        amount = this.denom.amount%20;
+      }
+      return Math.ceil((amount)/this.denom.max);
+    },
   },
   components: {
-    Chip
+    Chip,
+    DropCut
   },
 }
 </script>
 <style scoped>
-  .slush {
-    font-size: .9rem;
-    font-weight: 600;
+  .pinch:hover {
+    cursor: pointer;
   }
+
 </style>
 
 

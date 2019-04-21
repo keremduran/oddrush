@@ -12,10 +12,15 @@
       <div class="d-block text-center">
         <h3 class="game-modal-title">{{message.title}}</h3>
         <h3>{{message.gesture}}</h3>
-        <h4><b-badge variant="dark">Your Score: {{ score }}</b-badge></h4>
+        <h4><b-badge 
+          variant="dark">Your score: {{ score }} </b-badge>
+        </h4>
       </div>
-      <b-btn class="mt-3" variant="danger" @click="hideModal">Play Again</b-btn>
+      <b-btn class="mt-3" variant="danger" @click="hideModal">Close</b-btn>
     </b-modal>
+    <b-row class="god-area my-2" align-h="center">
+      <b-alert v-model="info" variant="info" dismissible>Hello, please press the <b>Blue Clubs Button</b> for odds and info at the bottom. </b-alert>
+    </b-row>
     <b-row class="player-area my-2">
       <b-col>
         <b-row class="wager-area" align-h="center" align-v="end">
@@ -61,7 +66,7 @@
               xs="12"
               align-h="center">
                 <chip-row 
-                v-for="denom in denoms" 
+                v-for="denom in activeDenoms"
                 :key="denom.index+'-dealer-chip-row-'+denoms[denom.index].color"
                 :denom="denom"
                 :pinch="true"/>
@@ -69,8 +74,8 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-row v-if="gameOn" align-v="end" align-h="start" class="tray my-2">
-      <b-row class="left-tray" align-h="center">
+    <b-row align-v="end" align-h="start" class="tray my-2">
+      <b-row v-if="gameOn" class="left-tray" align-h="center">
         <chip
           v-for="(denom, index) in denoms"
           :key="index+'-'+denom.color"
@@ -79,8 +84,9 @@
           @click.native="selectDenom(denom.index)"/>
       </b-row>
     </b-row>
-    <b-row v-if="!gameOn" class="mt-3" align-h="start" align-v="end">
-      <b-btn class="go-button" size="md" variant="danger" @click="start()">GO</b-btn>
+    <b-row class="mt-4" align-h="center" align-v="end">
+      <b-btn v-if="!gameOn" class="go-button" size="md" variant="success" @click="$store.commit('game/startGame')">GO</b-btn>
+      <b-btn v-else class="go-button" size="md" variant="outline-danger" @click="$store.commit('game/endGame')">End Game</b-btn>
     </b-row>
   </b-container>
 </template>
@@ -89,8 +95,18 @@
 import Chip from '~/components/Chip.vue'
 import ChipRow from '~/components/ChipRow.vue'
 export default {
+  watch: {
+    gameOn(newState, oldState){
+      if(!newState){
+        this.end(this.noLife || this.timeOut);
+      } else {
+        this.start();
+      }
+    }
+  },
   data() {
     return {
+      info: true,
       wager: null,
       wagerDenoms: [],
       result: null,
@@ -143,7 +159,6 @@ export default {
       }
       wagerDenoms.sort(this.compareDenoms);
       this.wagerDenoms = wagerDenoms;
-      console.log("wagerDenoms", wagerDenoms);
     },
     compareDenoms(denom1, denom2){
       if(denom1.value < denom2.value){
@@ -168,7 +183,7 @@ export default {
           odd: this.odd,
           result: this.result
         });
-        this.end();
+        this.$store.commit('game/endGame');
       }
     },
     start() {
@@ -185,8 +200,10 @@ export default {
       this.newPayout();
       this.startTimer();
     },
-    end() {
-      this.showModal();   
+    end(modal) {
+      if(modal){
+        this.showModal();
+      }
       this.dropCutActive = false;
       this.clearWorkingArea();
       this.wagerDenoms = [];
@@ -194,7 +211,6 @@ export default {
         text: null
       };
       clearInterval(this.timer);
-      this.$store.commit('game/endGame');
     },
     selectDenom(index){
       this.dropCutActive=true;
@@ -228,22 +244,15 @@ export default {
       this.setResult();
     },
     setWager() {
-      let tableMin = this.odd.tableMin || 25;
-      let increment = this.increment; //default, take it from the selector/store later.
+      let tableMin = this.tableMin || 25;
+      let increment = this.increment;
       if(this.odd.increment){
         increment = this.odd.increment;
       }
-      let upper = (this.score+1)*50;
+      let upper = tableMin + (this.score+1)*50;
       let number = tableMin + Math.floor(Math.random()*upper);
-      let half;
+      let half = .5;
 
-      if(Math.round(Math.random()*4) < 1){
-        half = 0;
-      } else {
-        half = .5;
-      }
-
-      //Check table min just to be sure
       if(number < tableMin/4){
         number = tableMin;
       } else if (number < tableMin) {   
@@ -301,8 +310,8 @@ export default {
         result: this.result
       });
 
-      if(!this.gameOn){
-        this.end();
+      if(!this.gameOn){  
+        this.$store.commit('game/endGame');
         return;
       }
 
@@ -334,6 +343,9 @@ export default {
     },
   },
   computed: {
+    tableMin() {
+      return this.$store.state.game.tableMin;
+    },
     answer() {
       return this.$store.state.game.answer;
     },
@@ -342,6 +354,9 @@ export default {
     },
     answers() {
       return this.$store.state.game.answers;
+    },
+    noLife() {
+      return this.$store.state.game.noLife;
     },
     lives() {
       return this.$store.state.game.lives;
@@ -372,6 +387,19 @@ export default {
     },
     increment() {
       return this.$store.state.game.increment;
+    },
+    remainingSeconds() {
+      return this.$store.state.game.maxSeconds - 
+      this.$store.state.game.remainingSeconds;
+    },
+    averageSeconds(){
+      let max = this.$store.state.game.maxSeconds;
+      let remaining = this.$store.state.game.remainingSeconds;
+      let used = max - remaining;
+      if(used === 0){
+        used = 1;
+      }
+      return Math.floor(used/this.score);
     }
   },
   components: {

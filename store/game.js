@@ -12,8 +12,8 @@ export const state = () => ({
   reducedSelectedOdds: [],
   score: 0,
   lives: 3,
-  tableMax: 5000,
-  tableMin: 5,
+  noLife: false,
+  tableMin: 25,
   answer: 0,
   increment: 5,
   odd: {
@@ -25,8 +25,7 @@ export const state = () => ({
     {
       index: 0,
       value: 1,
-      color: '#f8f9fa',
-      textColor: '#343a40',
+      color: '#c0c0c0',
       //color code instead of name pls
       max: 5,
       amount: 0
@@ -34,7 +33,7 @@ export const state = () => ({
     {
       index: 1,
       value: 2.5,
-      color: '#e83e8c',
+      color: '#ff7fb9',
       max: 4,
       amount: 0
     },
@@ -89,6 +88,11 @@ export const state = () => ({
       tableMin: 25
     },
     {
+      value: 5,
+      text: '5/1',
+      active: false,
+    },
+    {
       value: 8,
       text: '8/1',
       active: false,
@@ -98,21 +102,18 @@ export const state = () => ({
       text: '11/1',
       tableMin: 5,
       active: false,
-      increment: 5
     },
     {
       value: 12,
       text: '12/1',
       tableMin: 5,
       active: false,
-      increment: 5
     },
     {
       value: 15,
       text: '15/1',
       tableMin: 5,
       active: false,
-      increment: 5
     },
     {
       value: 17,
@@ -120,18 +121,21 @@ export const state = () => ({
       active: false,
     },
     {
+      value: 35,
+      text: '35/1',
+      active: false,
+    },
+    {
       value: 0.05,
       text: '5%',
       active: false,
-      tableMin: 35,
-      increment: 5
+      tableMin: 35
     },
     {
       value: 0.95,
       text: '95%',
       active: false,
-      tableMin: 35,
-      increment: 5
+      tableMin: 35
     },
   ],
   increments: [
@@ -152,6 +156,9 @@ export const mutations = {
         gesture: "Tik tik tik"
       }
     }
+  },
+  setTableMin(state, tableMin){
+    state.tableMin = tableMin;
   },
   resetTimer(state){
     state.remainingSeconds = state.maxSeconds;
@@ -178,10 +185,11 @@ export const mutations = {
   lifeDown(state) {     
     state.lives--
     if(state.lives === 0){
+      state.noLife = true,
       state.message = {
         title: "Too Many!",
         gesture: "¯\\_(ツ)_/¯"
-      }    
+      }
       state.on = false;
       return
     }
@@ -189,6 +197,7 @@ export const mutations = {
   startGame(state) {
     state.on = true;
     state.lives = 3;
+    state.noLife = false;
   },
   endGame(state) {
     state.on = false;
