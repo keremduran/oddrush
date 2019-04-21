@@ -14,7 +14,7 @@
         <br><br>Then, click on <b>GO</b>, and you'll see the broken-down wager and the odd at the top, and tray at the bottom. Start paying by selecting a color from the tray, and the dropcut and pay buttons will pop up on the middle left. After you press the dropcut buttons, your chips will appear automatically broken down on the middle right. 
         <br><br>If you want to erase chips, click on the left-most block to take just 1 chip and put it in the abyss (Nice with 95% odd for Baccarat). Clicking the other ones will erase the entire block.
         <br>(If it's unclear how many chips are there, you can just count the white lines.)
-        <br><br>On the right, there is the scoreboard where previous payouts will be listed. Hover or tap each to see what was your answer and the odd.
+        <br><br>On the right, there is the scoreboard where previous payouts will be listed. Hover or tap each to see what was your answer and the odd for that payout.
       </div>
       <b-btn class="mt-3" variant="danger" @click="hideInfoModal">Close</b-btn>
     </b-modal>
