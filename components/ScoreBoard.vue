@@ -10,7 +10,7 @@
       hide-footer>
       <div class="d-block info">
         <b>Welcome!</b> This is a game to practice payouts with many odds and progressive random bets.
-        <br><br>First, set your odds and other game settings (which you can change during the game). You may select multiple odds, and for each new payout, a random odd will be set from the ones you've selected.
+        <br><br>First, set your odds and other game settings (which you can change in the middle of the game). You may select multiple odds, and for each new payout, a random odd will be set from the ones you've selected.
         <br><br>Then, click on <b>GO</b>, and you'll see the broken-down wager and the odd at the top, and tray at the bottom. Start paying by selecting a color from the tray, and the dropcut and pay buttons will pop up on the middle left. After you press the dropcut buttons, your chips will appear automatically broken down on the middle right. 
         <br><br>If you want to erase chips, click on the left-most block to take just 1 chip and put it in the abyss (Nice with 95% odd for Baccarat). Clicking the other ones will erase the entire block.
         <br>(If it's unclear how many chips are there, you can just count the white lines.)
