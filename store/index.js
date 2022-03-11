@@ -1,15 +1,15 @@
-export const strict = false
+export const strict = false;
 
 export const state = () => ({
   counter: 0,
-  curtain: false
-})
+  curtain: true
+});
 
 export const mutations = {
   increment(state) {
-    state.counter++
+    state.counter++;
   },
-  toggleCurtain(state){
-    state.curtain=!state.curtain
+  toggleCurtain(state) {
+    state.curtain = !state.curtain;
   }
-}
+};

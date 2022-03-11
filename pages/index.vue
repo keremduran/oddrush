@@ -1,38 +1,36 @@
 <template>
-  <div>
+  <b-container>
     <div class="curtain" v-if="curtain">
       <logo />
       <h1 class="title">
         oddrush
       </h1>
       <h2 class="subtitle">
-        A bedazzling payout game for the casino folk
+        A bedazzling payout practice game for the casino folk
       </h2>
       <div class="links">
-        <a
-          @click="toggleCurtain()"
-          class="button button--grey"
-        >Play</a>
+        <a @click="toggleCurtain()" class="button button--grey">Play</a>
       </div>
     </div>
     <b-container class="game-stuff" fluid v-else>
-      <b-row>
-        <b-col cols="9" md="7" class="game-col"><game /></b-col>
-        <b-col cols="3" md="5" class="scoreboard-col"><score-board /></b-col>
+      <b-row
+        ><b-col cols="3" md="5" sm="12" class="scoreboard-col"
+          ><score-board
+        /></b-col>
+        <b-col cols="9" md="7" sm="12" class="game-col"><game /></b-col>
       </b-row>
     </b-container>
-  </div>
+  </b-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import Game from '~/components/Game.vue'
-import ScoreBoard from '~/components/ScoreBoard.vue'
+import Logo from "~/components/Logo.vue";
+import Game from "~/components/Game.vue";
+import ScoreBoard from "~/components/ScoreBoard.vue";
 
 export default {
-  data () {
-    return {
-    }
+  data() {
+    return {};
   },
   components: {
     Logo,
@@ -40,27 +38,27 @@ export default {
     ScoreBoard
   },
   methods: {
-    toggleCurtain(){
-      this.$store.commit('toggleCurtain');
-    },
+    toggleCurtain() {
+      this.$store.commit("toggleCurtain");
+    }
   },
   computed: {
     curtain() {
-      return this.$store.state.curtain
-    },
+      return this.$store.state.curtain;
+    }
   },
   mounted() {
     //this.init();
   }
-}
+};
 </script>
 
 <style scoped>
-.button:hover{
+.button:hover {
   cursor: pointer;
 }
 .game-col {
-/* background-color: #3aaf5548; */
+  /* background-color: #3aaf5548; */
   min-height: 100vh;
 }
 .scoreboard-col {
@@ -74,8 +72,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
