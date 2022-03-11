@@ -59,15 +59,16 @@ export default {
 }
 .game-col {
   /* background-color: #3aaf5548; */
-  min-height: 100vh;
+  min-height: 50vh;
 }
 .scoreboard-col {
   /* background-color: #4da4d68f; */
-  min-height: 100vh;
+  padding-top: 5rem;
+  min-height: 15vh;
 }
 .curtain {
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 95vh;
   text-align: center;
 }
 
@@ -94,6 +95,6 @@ export default {
 }
 
 .game-stuff {
-  min-height: 100vh;
+  min-height: 50vh;
 }
 </style>

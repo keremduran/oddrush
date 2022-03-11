@@ -24,8 +24,8 @@
     </b-modal>
     <b-row class="god-area my-2" align-h="center">
       <b-alert v-model="info" variant="info" dismissible
-        >Hello, please press the <b>Blue Clubs Button</b> for odds and info at
-        the bottom.
+        >Hello, press the <b>Blue Clubs Button</b> to change practice odds and
+        find more info via button at the bottom.
       </b-alert>
     </b-row>
     <b-row class="player-area my-2">
